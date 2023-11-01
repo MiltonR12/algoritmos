@@ -13,7 +13,7 @@ function PanelFifo() {
   const tamañoTable = calculateSizeProcess(process) + 1
 
   return (
-    <div>
+    <div className="mx-auto container" >
       <table className="table-auto" >
         <HeaderFifoTable />
         <TableFifo arrayProcess={process} />
