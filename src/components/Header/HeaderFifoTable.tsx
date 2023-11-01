@@ -7,10 +7,10 @@ function HeaderFifoTable() {
           Nº Procesos
         </td>
         <td className="p-2 border border-blue-400" >
-          T1
+          Tiempo de inicio
         </td>
         <td className="p-2 border border-blue-400" >
-          T
+          Tiempo de ejecucion
         </td>
         <td className="p-2 border border-blue-400" >
           Tiempo De Espera
