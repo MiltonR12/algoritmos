@@ -1,31 +1,29 @@
 import { create } from "zustand";
 import { Process } from "../types/interfaces";
-import { updateProcessTable } from "../utils/processFuntion";
+import {
+  orderByStartProcess,
+  updateProcessTable,
+} from "../utils/processFuntion";
 
 type StateProcess = {
   process: Process[];
   tableProcess: number[][];
+  orderPriority: boolean;
   addProcess: (process: Process) => void;
   updateTableProcess: (newTableProcess: number[][]) => void;
   deleteProcess: (id: number) => void;
+  setOrderPriority: () => void;
 };
 
-export const useProcessState = create<StateProcess>((set) => ({
+export const useProcessState = create<StateProcess>((set, get) => ({
   process: [],
   tableProcess: [],
+  orderPriority: true,
   addProcess: (newProcess) =>
-    set((state) => {
-      const auxProcess = [...state.process, newProcess];
-      const processOrder = auxProcess.sort(
-        (a, b) => a.startProcess - b.startProcess
-      );
-      return {
-        process: processOrder,
-      };
-    }),
+    set((state) => ({ process: [...state.process, newProcess] })),
   updateTableProcess: (newTableProcess) =>
     set(() => ({
-      tableProcess: [...newTableProcess],
+      tableProcess: newTableProcess,
     })),
   deleteProcess: (id) =>
     set((state) => {
@@ -35,5 +33,10 @@ export const useProcessState = create<StateProcess>((set) => ({
         process: newProcess,
         tableProcess: newTableProcess,
       };
+    }),
+  setOrderPriority: () =>
+    set((state) => {
+      console.log("sandia");
+      return { orderPriority: !get().orderPriority };
     }),
 }));

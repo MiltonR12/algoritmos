@@ -5,5 +5,7 @@ export interface Process {
   waitTime: number,
   finishTime: number,
   colorCamp: string,
-  fullTime: number
+  fullTime: number,
+  index: number,
+  priority: number
 }

@@ -4,7 +4,7 @@ function HeaderFifoTable() {
     <thead >
       <tr className="bg-blue-700 border-collapse" >
         <td className="p-2 border border-blue-400" >
-          Nº Procesos
+          Nº
         </td>
         <td className="p-2 border border-blue-400" >
           Tiempo de inicio
@@ -13,13 +13,19 @@ function HeaderFifoTable() {
           Tiempo de ejecucion
         </td>
         <td className="p-2 border border-blue-400" >
+          Prioridad
+        </td>
+        <td className="p-2 border border-blue-400" >
           Tiempo De Espera
         </td>
         <td className="p-2 border border-blue-400" >
           Tiempo de finalizacion
         </td>
-        <td>
+        <td className="p-2 border border-blue-400" >
           Tiempo de espera
+        </td>
+        <td className="p-2 border border-blue-400" >
+          INDEX
         </td>
         <td className="p-2 border border-blue-400" >
           Acciones
