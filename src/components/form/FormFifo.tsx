@@ -1,18 +1,21 @@
 import { useRef } from "react";
 import { Formik } from "formik";
-import InputCustom from "./InputCustom";
-import { useProcessState } from "../store/processState";
-import { Process } from "../types/interfaces";
-import { randomColor } from "../utils/disaing";
+import InputCustom from "../InputCustom";
+// import { useFifoState } from "../../store/stateFifo";
+import { Process } from "../../types/interfaces";
+import { randomColor, processWord } from "../../utils/disaing";
 import {
-  orderByExecute,
-  updateProcessTable,
-} from "../utils/processFuntion";
+  generateTable, orderByExecute,
+} from "../../utils/processFuntion";
+// import { orderByStartProcess } from "../../utils/processFuntion";
+import PrimaryButton from "../button/PrimaryButton";
+import SecondButton from "../button/SecondButton";
+import { useJSFstate } from "../../store/stateSJF";
 
-function FormProcess() {
+function Form() {
 
   const dialogRef = useRef<HTMLDialogElement | null>(null);
-  const { addProcess, process, updateTableProcess } = useProcessState();
+  const { addProcess, process, updateTableProcess } = useJSFstate();
 
   const handleOpenDialog = () => {
     if (dialogRef.current) {
@@ -33,7 +36,6 @@ function FormProcess() {
           initialValues={{
             startProcess: 0,
             executionTime: 0,
-            priority: 0,
           }}
           onSubmit={(data) => {
             const newProcess: Process = {
@@ -44,13 +46,12 @@ function FormProcess() {
               finishTime: 0,
               fullTime: 0,
               index: 0,
+              nameProcess: processWord[process.length]
             };
             addProcess(newProcess);
-            // const auxOrder = orderByStartProcess([...process, newProcess]);
-            // const newTable = updateProcessTable(auxOrder);
-            // updateTableProcess(newTable);
-            const auxOrder = orderByExecute([...process, newProcess])
-            updateTableProcess(updateProcessTable(auxOrder))
+            const auxOrder = orderByExecute([...process, newProcess]);
+            const newTable = generateTable(auxOrder);
+            updateTableProcess(newTable);
             dialogRef.current?.close();
           }}
         >
@@ -71,19 +72,12 @@ function FormProcess() {
                   type="number"
                 />
                 <div className="flex gap-3 justify-around">
-                  <button
-                    className="bg-zinc-800 text-white py-2 px-4 rounded-lg"
-                    type="button"
-                    onClick={handleCloseDialog}
-                  >
+                  <SecondButton type="button" onClick={handleCloseDialog} >
                     Cancelar
-                  </button>
-                  <button
-                    type="submit"
-                    className="bg-blue-700 text-white py-2 px-4 rounded-lg"
-                  >
+                  </SecondButton>
+                  <PrimaryButton type="submit" >
                     Agregar
-                  </button>
+                  </PrimaryButton>
                 </div>
               </div>
             </form>
@@ -97,7 +91,7 @@ function FormProcess() {
         Agregar Proceso
       </button>
     </>
-  );
+  )
 }
 
-export default FormProcess;
+export default Form

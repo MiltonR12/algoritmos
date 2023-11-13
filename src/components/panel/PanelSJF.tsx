@@ -1,32 +1,31 @@
+import { useJSFstate } from "../../store/stateSJF"
+import { generateDataJSF } from "../../utils/generate"
+import { calculateSizeProcess, generateTable, orderByExecute } from "../../utils/processFuntion"
+import DynamicBox from "../DynamicBox"
 import HeaderFifoTable from "../Header/HeaderFifoTable"
 import LayoutTable from "../LayoutTable"
-import { calculateSizeProcess, generateTable, orderByStartProcess } from "../../utils/processFuntion"
-import DynamicBox from "../DynamicBox"
-import FormFifo from "../form/FormFifo"
-import { useFifoState } from '../../store/stateFifo'
-import Title from "../Title"
-import { generateDataFifo } from "../../utils/generate"
 import Table from "../Table"
+import Title from "../Title"
+import FormFifo from "../form/FormFifo"
 
-function PanelFifo() {
-
-  const { process, tableProcess, addProcess, updateTableProcess } = useFifoState()
+function PanelSJF() {
+  const { process, tableProcess, addProcess, updateTableProcess } = useJSFstate()
 
   const tamañoTable = calculateSizeProcess(process) + 1
 
   const handleGenerateDate = () => {
-    const processTest = generateDataFifo(4)
-    const ordenado = orderByStartProcess([...processTest, ...process])
+    const processTest = generateDataJSF(5)
+    const ordenado = orderByExecute([...processTest, ...process])
+    const newTable = generateTable(ordenado)
     ordenado.forEach(elem => {
       addProcess(elem)
     });
-    const newTable = generateTable(ordenado)
     updateTableProcess(newTable)
   }
 
   return (
     <div className="mx-auto container my-5" >
-      <Title>First Input First Output</Title>
+      <Title>SJF</Title>
       <table className="table-auto mx-auto" >
         <HeaderFifoTable />
         <Table process={process} />
@@ -54,4 +53,4 @@ function PanelFifo() {
   )
 }
 
-export default PanelFifo
+export default PanelSJF

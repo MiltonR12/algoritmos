@@ -1,22 +1,21 @@
-import HeaderFifoTable from "../Header/HeaderFifoTable"
-import LayoutTable from "../LayoutTable"
-import { calculateSizeProcess, generateTable, orderByStartProcess } from "../../utils/processFuntion"
-import DynamicBox from "../DynamicBox"
-import FormFifo from "../form/FormFifo"
-import { useFifoState } from '../../store/stateFifo'
-import Title from "../Title"
-import { generateDataFifo } from "../../utils/generate"
-import Table from "../Table"
+import { usePriorityState } from '../../store/statePriority'
+import { calculateSizeProcess, generateTable, sortByPriority } from '../../utils/processFuntion'
+import { generateDataPriority } from '../../utils/generate'
+import HeaderFifoTable from '../Header/HeaderFifoTable'
+import Title from '../Title'
+import Form from '../form/FormFifo'
+import LayoutTable from '../LayoutTable'
+import DynamicBox from '../DynamicBox'
+import Table from '../Table'
 
-function PanelFifo() {
-
-  const { process, tableProcess, addProcess, updateTableProcess } = useFifoState()
+function PanelPriority() {
+  const { process, tableProcess, addProcess, updateTableProcess } = usePriorityState()
 
   const tamañoTable = calculateSizeProcess(process) + 1
 
   const handleGenerateDate = () => {
-    const processTest = generateDataFifo(4)
-    const ordenado = orderByStartProcess([...processTest, ...process])
+    const processTest = generateDataPriority(5)
+    const ordenado = sortByPriority([...processTest, ...process])
     ordenado.forEach(elem => {
       addProcess(elem)
     });
@@ -26,12 +25,12 @@ function PanelFifo() {
 
   return (
     <div className="mx-auto container my-5" >
-      <Title>First Input First Output</Title>
+      <Title>First Input First Output Priority</Title>
       <table className="table-auto mx-auto" >
-        <HeaderFifoTable />
+        <HeaderFifoTable isPriority={true} />
         <Table process={process} />
       </table>
-      <FormFifo />
+      <Form />
       <button onClick={handleGenerateDate} >
         Generar Automaticamente
       </button>
@@ -54,4 +53,4 @@ function PanelFifo() {
   )
 }
 
-export default PanelFifo
+export default PanelPriority

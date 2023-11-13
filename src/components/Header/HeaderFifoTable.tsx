@@ -1,5 +1,5 @@
 
-function HeaderFifoTable() {
+function HeaderFifoTable({ isPriority = false }: { isPriority?: boolean }) {
   return (
     <thead >
       <tr className="bg-blue-700 border-collapse" >
@@ -7,22 +7,22 @@ function HeaderFifoTable() {
           Nº
         </td>
         <td className="p-2 border border-blue-400" >
-          Tiempo de inicio
+          T. de inicio
         </td>
         <td className="p-2 border border-blue-400" >
-          Tiempo de ejecucion
+          T. de ejecucion
         </td>
-        <td className="p-2 border border-blue-400" >
+        {isPriority && <td className="p-2 border border-blue-400" >
           Prioridad
+        </td>}
+        <td className="p-2 border border-blue-400" >
+          T. De Espera
         </td>
         <td className="p-2 border border-blue-400" >
-          Tiempo De Espera
+          T. de finalizacion
         </td>
         <td className="p-2 border border-blue-400" >
-          Tiempo de finalizacion
-        </td>
-        <td className="p-2 border border-blue-400" >
-          Tiempo de espera
+          T. de espera
         </td>
         <td className="p-2 border border-blue-400" >
           INDEX
