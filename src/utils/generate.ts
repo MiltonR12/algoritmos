@@ -46,3 +46,13 @@ export const generateDataPriority = (nro: number) => {
   }
   return data;
 };
+
+export const generateDataPaginacion = () => {
+  const marcos = Math.floor(Math.random() * 3) + 2;
+  const nroPages = Math.floor(Math.random() * 9) + marcos
+  const pages = [];
+  for (let i = 0; i < nroPages; i++) {
+    pages.push(Math.floor(Math.random() * 8) + 1);
+  }
+  return {pages, marcos}
+};

@@ -12,10 +12,7 @@ function LayoutTable({ children, numColumns, process }: Props) {
   const schemeRow = Array.from({ length: numColumns + 1 }, (_, index) => index);
 
   return (
-    <section className="container mx-auto bg-slate-950 p-5 rounded-xl">
-      <h3 className="text-center text-2xl md:text-4xl font-semibold mb-5">
-        Tabla De Procesos
-      </h3>
+    <section className="container mx-auto rounded-xl">
       <div className="layout-table text-center">
         <div className="border-r-2 border-blue-600">
           {process.map((item, index) => (
