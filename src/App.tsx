@@ -7,9 +7,6 @@ import { discoFIFO } from "./utils/disco/algoritmos"
 
 function App() {
 
-
-  discoFIFO([55,58,39,18,90,160,150,38,184], 100)
-
   return (
     <main>
       {/* <SectionProcesador /> */}
