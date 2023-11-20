@@ -1,5 +1,6 @@
 import { Process, ProcessPri } from "../types/interfaces";
 import { processWord, randomColor } from "./disaing";
+import { discoFIFO, generateMatrizSSTF } from "./disco/algoritmos";
 
 const defaultProcess = (execution: number, start: number, i: number) => {
   return {
@@ -49,10 +50,26 @@ export const generateDataPriority = (nro: number) => {
 
 export const generateDataPaginacion = () => {
   const marcos = Math.floor(Math.random() * 3) + 2;
-  const nroPages = Math.floor(Math.random() * 9) + marcos
+  const nroPages = Math.floor(Math.random() * 9) + marcos;
   const pages = [];
   for (let i = 0; i < nroPages; i++) {
     pages.push(Math.floor(Math.random() * 8) + 1);
   }
-  return {pages, marcos}
+  return { pages, marcos };
+};
+
+export const genericDataDisc = (tipo: "FIFO" | "SSTF", nro: number = 10) => {
+  const pistas = Array.from(
+    { length: nro },
+    () => Math.floor(Math.random() * 300) + 1
+  );
+
+  const initPista = Math.floor(Math.random() * 99) + 1;
+
+  const table =
+    tipo === "FIFO"
+      ? discoFIFO(pistas, initPista)
+      : generateMatrizSSTF(pistas, initPista);
+
+  return { pistas, initPista, table };
 };
