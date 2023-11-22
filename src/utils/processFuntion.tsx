@@ -14,7 +14,7 @@ export const generateTable = (process: Process[]) => {
     const startExecute = totalProcess - item.executionTime - 1;
     item.fullTime = totalProcess - item.startProcess;
     item.waitTime = startExecute - item.startProcess + 1;
-    item.index = item.executionTime / item.fullTime;
+    item.index = parseFloat((item.executionTime / item.fullTime).toFixed(2))
     const rowProcess: number[] = Array.from({ length: tableSize });
     for (let i = 0; i < rowProcess.length - 1; i++) {
       if (item.startProcess === i) {

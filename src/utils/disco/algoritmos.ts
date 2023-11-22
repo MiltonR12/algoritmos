@@ -52,9 +52,9 @@ export const generateMatrizSCAN = (
   const maxPistas = datos.filter((item) => item > pista).sort((a, b) => a - b);
   const newDatos = [pista];
   if (tipo === "growing") {
-    newDatos.push(...maxPistas, ...minPistas)
+    newDatos.push(...maxPistas, ...minPistas);
   } else {
-    newDatos.push(...minPistas, ...maxPistas)
+    newDatos.push(...minPistas, ...maxPistas);
   }
   const matriz = [];
   for (let i = 1; i < newDatos.length; i++) {

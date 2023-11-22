@@ -5,6 +5,7 @@ import Title from "./Title";
 import Grafico from "./Grafico";
 import { genericDataDisc } from "../utils/generate";
 import DiscInfo from "./DiscInfo";
+import { alertGenerateDisc } from "./alerts/AlertsDisc";
 
 type Camp = {
   pistas: number[];
@@ -23,18 +24,45 @@ function SectionDisco() {
 
   const [discSSTF, setDiscSSTF] = useState<Camp>(initCamp);
 
-  const handleGenerateFIFO = () => {
-    const { initPista, pistas, table } = genericDataDisc("FIFO")
-    setDiscFIFO({ initPista, pistas, table, });
+  const [discSCAN, setDiscSCAN] = useState<Camp & { tipo: string }>({ ...initCamp, tipo: "growing" })
+
+  const [discCSCAN, setDiscCSCAN] = useState<Camp & { tipo: string }>({ ...initCamp, tipo: "growing" })
+
+  const handleGenerateFIFO = async () => {
+    alertGenerateDisc().then((result) => {
+      if (result.isConfirmed) {
+        const { initPista, pistas, table } = genericDataDisc("FIFO", result.value)
+        setDiscFIFO({ initPista, pistas, table, });
+      }
+    })
   };
 
   const handleGenerateSSTF = () => {
-    const { initPista, pistas, table } = genericDataDisc("SSTF")
-    setDiscSSTF({ initPista, pistas, table })
+    alertGenerateDisc().then((result) => {
+      if (result.isConfirmed) {
+        const { initPista, pistas, table } = genericDataDisc("SSTF", result.value)
+        setDiscSSTF({ initPista, pistas, table })
+      }
+    })
   }
 
-  // console.log(generateMatrizSCAN([55, 58, 39, 18, 90, 160, 150, 38, 184], 100, "growing"))
-  // console.log(generateMatrizCSCAN([55, 58, 39, 18, 90, 160, 150, 38, 184], 100, "growing"))
+  const handleGenerateSCAN = () => {
+    alertGenerateDisc().then((result) => {
+      if (result.isConfirmed) {
+        const { initPista, pistas, table } = genericDataDisc("SCAN", result.value)
+        setDiscSCAN({ initPista, pistas, table, tipo: "growing" })
+      }
+    })
+  }
+
+  const handleGenerateCSCAN = () => {
+    alertGenerateDisc().then((result) => {
+      if (result.isConfirmed) {
+        const { initPista, pistas, table } = genericDataDisc("CSCAN", result.value)
+        setDiscCSCAN({ initPista, pistas, table, tipo: "growing" })
+      }
+    })
+  }
 
   return (
     <section className="flex flex-col gap-6 mx-auto container">
@@ -61,6 +89,30 @@ function SectionDisco() {
           matriz={discSSTF.table}
           title="Grafico SSTF"
           labels={discSSTF.pistas.length} />
+      </div>
+      <div className="bg-slate-950 p-5">
+        <Title>Algotirmo de Disco SCAN</Title>
+        <PrimaryButton onClick={handleGenerateSCAN}>
+          Generar Datos Automaticamente
+        </PrimaryButton>
+        <DiscInfo initPista={discSCAN.initPista} pistas={discSCAN.pistas} />
+        <TableDisc table={discSCAN.table} />
+        <Grafico
+          matriz={discSCAN.table}
+          title="Grafico SSTF"
+          labels={discSCAN.pistas.length} />
+      </div>
+      <div className="bg-slate-950 p-5">
+        <Title>Algotirmo de Disco CSCAN</Title>
+        <PrimaryButton onClick={handleGenerateCSCAN}>
+          Generar Datos Automaticamente
+        </PrimaryButton>
+        <DiscInfo initPista={discCSCAN.initPista} pistas={discCSCAN.pistas} />
+        <TableDisc table={discCSCAN.table} />
+        <Grafico
+          matriz={discCSCAN.table}
+          title="Grafico SSTF"
+          labels={discCSCAN.pistas.length} />
       </div>
     </section>
   );

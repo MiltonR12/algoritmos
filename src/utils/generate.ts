@@ -1,6 +1,11 @@
 import { Process, ProcessPri } from "../types/interfaces";
 import { processWord, randomColor } from "./disaing";
-import { discoFIFO, generateMatrizSSTF } from "./disco/algoritmos";
+import {
+  discoFIFO,
+  generateMatrizCSCAN,
+  generateMatrizSCAN,
+  generateMatrizSSTF,
+} from "./disco/algoritmos";
 
 const defaultProcess = (execution: number, start: number, i: number) => {
   return {
@@ -41,24 +46,28 @@ export const generateDataPriority = (nro: number) => {
   for (let i = 0; i < nro; i++) {
     const start = Math.floor(Math.random() * 10);
     const execution = Math.floor(start + Math.random() * (7 - start));
-    const priority = Math.floor(Math.random() * 5);
+    const priority = Math.floor(Math.random() * 4) + 1;
     const elem = defaultProcess(execution, start, i);
     data.push({ ...elem, priority });
   }
   return data;
 };
 
-export const generateDataPaginacion = () => {
-  const marcos = Math.floor(Math.random() * 3) + 2;
-  const nroPages = Math.floor(Math.random() * 9) + marcos;
+export const generateDataPaginacion = (nroMarcos: number, nroPages: number) => {
   const pages = [];
   for (let i = 0; i < nroPages; i++) {
     pages.push(Math.floor(Math.random() * 8) + 1);
   }
-  return { pages, marcos };
+  return { pages, marcos: nroMarcos };
 };
 
-export const genericDataDisc = (tipo: "FIFO" | "SSTF", nro: number = 10) => {
+export const genericDataDisc = (
+  tipo: "FIFO" | "SSTF" | "SCAN" | "CSCAN",
+  nro: number = 10,
+  format?: "growing" | "decreasing"
+) => {
+  const newFormat = format ?? "growing";
+
   const pistas = Array.from(
     { length: nro },
     () => Math.floor(Math.random() * 300) + 1
@@ -69,7 +78,11 @@ export const genericDataDisc = (tipo: "FIFO" | "SSTF", nro: number = 10) => {
   const table =
     tipo === "FIFO"
       ? discoFIFO(pistas, initPista)
-      : generateMatrizSSTF(pistas, initPista);
+      : tipo === "SSTF"
+      ? generateMatrizSSTF(pistas, initPista)
+      : tipo === "SCAN"
+      ? generateMatrizSCAN(pistas, initPista, newFormat)
+      : generateMatrizCSCAN(pistas, initPista, newFormat);
 
   return { pistas, initPista, table };
 };

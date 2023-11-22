@@ -1,30 +1,34 @@
 
 function HeaderPaginacion({ pages }: { pages: number[] }) {
   return (
-    <div className="flex text-center" >
-      <div>
-        <div className="w-20 h-7 border border-black bg-blue-700" >
+    <thead className="text-center" >
+      <tr>
+        <td className="w-20 h-7 border border-black bg-blue-700 block" >
           Tiempo
-        </div>
-        <div className="w-20 h-7 border border-black bg-cyan-400" >
-          Paginas
-        </div>
-      </div>
-      <div className="flex bg-blue-900" >
+        </td>
         {
-          pages.map((item, index) => (
-            <div key={index} >
-              <div className="w-7 h-7 border border-black text-white bg-blue-700" >
-                {index + 1}
-              </div>
-              <div className="w-7 h-7 border border-black bg-cyan-400" >
-                {item}
-              </div>
-            </div>
+          pages.map((_, index) => (
+            <td
+              key={index}
+              className="w-7 h-7 border border-black text-white bg-blue-700" >
+              {index + 1}
+            </td>
           ))
         }
-      </div>
-    </div>
+      </tr>
+      <tr className="bg-blue-900" >
+        <td className="w-20 h-7 border border-black bg-cyan-400 block" >
+          Paginas
+        </td>
+        {
+          pages.map((item, index) => (
+            <td key={index} className="w-7 h-7 border border-black bg-cyan-400" >
+              {item}
+            </td>
+          ))
+        }
+      </tr>
+    </thead>
   )
 }
 

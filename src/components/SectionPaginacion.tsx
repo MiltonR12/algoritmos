@@ -2,8 +2,8 @@ import { useState } from "react";
 import PanelPaginacion from "./panel/PanelPaginacion";
 import { generateDataPaginacion } from "../utils/generate";
 import { paginacionFIFO, paginacionOptimo } from "../utils/paginacion/funtions";
-import PrimaryButton from "./button/PrimaryButton";
 import Title from "./Title";
+import FormPaginacion from "./form/FormPaginacion";
 
 type Data = {
   fallos: boolean[];
@@ -27,14 +27,14 @@ function SectionPaginacion() {
     pages: [],
   });
 
-  const handleFIFO = () => {
-    const { marcos, pages } = generateDataPaginacion();
+  const handleGenerateFIFO = (nroMarcos: number, nroPages: number) => {
+    const { marcos, pages } = generateDataPaginacion(nroMarcos, nroPages);
     const { matriz, fallos } = paginacionFIFO(pages, marcos);
     setfifo({ pages, marcos, matriz, fallos });
   };
 
-  const handleOptimo = () => {
-    const { marcos, pages } = generateDataPaginacion();
+  const handleGenerateOptimo = (nroMarcos: number, nroPages: number) => {
+    const { marcos, pages } = generateDataPaginacion(nroMarcos, nroPages);
     const { matriz, fallos } = paginacionOptimo(pages, marcos);
     setOptimo({ pages, marcos, matriz, fallos });
   };
@@ -47,9 +47,7 @@ function SectionPaginacion() {
         pages={fifo.pages}
       >
         <Title>Algoritmo de paginacion FIFO</Title>
-        <PrimaryButton onClick={handleFIFO}>
-          Generar Datos Automaticamente
-        </PrimaryButton>
+        <FormPaginacion handleAction={handleGenerateFIFO} />
       </PanelPaginacion>
 
       <PanelPaginacion
@@ -58,9 +56,7 @@ function SectionPaginacion() {
         pages={optimo.pages}
       >
         <Title>Algoritmo de paginacion Optimo</Title>
-        <PrimaryButton onClick={handleOptimo}>
-          Generar Datos Automaticamente
-        </PrimaryButton>
+        <FormPaginacion handleAction={handleGenerateOptimo} />
       </PanelPaginacion>
     </section>
   );
