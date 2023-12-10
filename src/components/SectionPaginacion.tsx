@@ -40,7 +40,7 @@ function SectionPaginacion() {
   };
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-6 mb-5">
       <PanelPaginacion
         fallos={fifo.fallos}
         matriz={fifo.matriz}
