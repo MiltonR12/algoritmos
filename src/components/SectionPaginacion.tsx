@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PanelPaginacion from "./panel/PanelPaginacion";
 import { generateDataPaginacion } from "../utils/generate";
-import { paginacionFIFO, paginacionOptimo } from "../utils/paginacion/funtions";
+import { paginacionFIFO, paginacionLRU, paginacionOptimo } from "../utils/paginacion/funtions";
 import Title from "./Title";
 import FormPaginacion from "./form/FormPaginacion";
 
@@ -27,6 +27,13 @@ function SectionPaginacion() {
     pages: [],
   });
 
+  const [lru, setLru] = useState<Data>({
+    fallos: [],
+    marcos: 0,
+    matriz: [],
+    pages: []
+  })
+
   const handleGenerateFIFO = (nroMarcos: number, nroPages: number) => {
     const { marcos, pages } = generateDataPaginacion(nroMarcos, nroPages);
     const { matriz, fallos } = paginacionFIFO(pages, marcos);
@@ -38,6 +45,12 @@ function SectionPaginacion() {
     const { matriz, fallos } = paginacionOptimo(pages, marcos);
     setOptimo({ pages, marcos, matriz, fallos });
   };
+
+  const handleGenerateLRU = (nroMarcos: number, nroPages: number) => {
+    const { marcos, pages } = generateDataPaginacion(nroMarcos, nroPages)
+    const { matriz, fallos } = paginacionLRU(pages, marcos)
+    setLru({ pages, marcos, matriz, fallos })
+  }
 
   return (
     <section className="flex flex-col gap-6 mb-5">
@@ -58,6 +71,16 @@ function SectionPaginacion() {
         <Title>Algoritmo de paginacion Optimo</Title>
         <FormPaginacion handleAction={handleGenerateOptimo} />
       </PanelPaginacion>
+
+      <PanelPaginacion
+        fallos={lru.fallos}
+        matriz={lru.matriz}
+        pages={lru.pages}
+      >
+        <Title>Algoritmo de paginacion LRU</Title>
+        <FormPaginacion handleAction={handleGenerateLRU} />
+      </PanelPaginacion>
+
     </section>
   );
 }

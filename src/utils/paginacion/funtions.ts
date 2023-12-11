@@ -111,3 +111,59 @@ export const paginacionOptimo = (paginas: number[], marco: number) => {
 
   return { matriz, fallos };
 };
+
+export const paginacionLRU = (paginas: number[], marco: number) => {
+  const pageSize = paginas.length;
+  const fallos: boolean[] = new Array(pageSize).fill(false);
+  const matriz = generateMatriz(pageSize, marco);
+
+  matriz[0][0] = paginas[0];
+
+  const historial: number[] = [];
+  historial.push(paginas[0]);
+
+  for (let i = 1; i < pageSize; i++) {
+    let exist = false;
+    let isEmpty = false;
+    let positionEmpty = 0;
+
+    for (let j = 0; j < marco; j++) {
+      matriz[j][i] = matriz[j][i - 1];
+
+      // busca si hay un espacio vacío
+      if (matriz[j][i] === 0 && !isEmpty) {
+        isEmpty = true;
+        positionEmpty = j;
+      }
+
+      // compara el elemento actual con el anterior
+      if (matriz[j][i] === paginas[i]) {
+        exist = true;
+        // Actualiza el historial para reflejar el uso más reciente
+        historial.splice(historial.indexOf(paginas[i]), 1);
+        historial.push(paginas[i]);
+      }
+    }
+
+    // llena el espacio vacío
+    if (!exist && isEmpty) {
+      matriz[positionEmpty][i] = paginas[i];
+      historial.push(paginas[i]);
+    }
+
+    if (!exist && !isEmpty) {
+      // Encuentra la página menos recientemente usada
+      const leastRecent = historial[0];
+      const position = matriz[0].indexOf(leastRecent);
+      matriz[position][i] = paginas[i];
+
+      // Actualiza el historial para reflejar el uso más reciente
+      historial.shift();
+      historial.push(paginas[i]);
+    }
+
+    fallos[i] = matriz.every((fila) => fila[i] === fila[i - 1]);
+  }
+
+  return { matriz, fallos };
+};

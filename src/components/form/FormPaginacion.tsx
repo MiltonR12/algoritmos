@@ -11,6 +11,7 @@ function FormPaginacion({ handleAction }: Props) {
     <Formik
       initialValues={{ nroMarcos: 0, nroPages: 0 }}
       onSubmit={({ nroMarcos, nroPages }) => {
+        console.log(nroMarcos, nroPages)
         handleAction(nroMarcos, nroPages)
       }}
     >
