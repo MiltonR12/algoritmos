@@ -8,15 +8,26 @@ function App() {
   const [IsVisible, setIsVisible] = useState(0);
 
   return (
-    <main className="flex flex-col gap-5 justify-center items-center min-h-screen">
-      <section className="container mx-auto bg-slate-950 p-10">
-        <h1 className="text-center">Menu De Algoritmos</h1>
-        <div className="flex justify-between text-center">
-          <PrimaryButton onClick={() => setIsVisible(1)} >Algoritmo De Procesador</PrimaryButton>
-          <PrimaryButton onClick={() => setIsVisible(2)} >Algoritmo De Paginacion</PrimaryButton>
-          <PrimaryButton onClick={() => setIsVisible(3)} >Algoritmo De Disco</PrimaryButton>
+    <main className=" min-h-screen">
+      <nav className="container mx-auto p-10 bg-slate-950 mt-10" >
+        <h2 className="text-center text-3xl mb-10" >Bibliotecas de Algoritmos</h2>
+        <div className="flex gap-3 justify-center flex-col" >
+          <PrimaryButton
+            onClick={() => setIsVisible(1)}
+          >Algoritmo de Procesador</PrimaryButton>
+          <PrimaryButton
+            onClick={() => setIsVisible(0)}
+          >
+            Algoritmo de Memoria
+          </PrimaryButton>
+          <PrimaryButton
+            onClick={() => setIsVisible(2)}
+          >Algoritmo de Paginacion</PrimaryButton>
+          <PrimaryButton
+            onClick={() => setIsVisible(3)}
+          >Algoritmo de Disco</PrimaryButton>
         </div>
-      </section>
+      </nav>
       {IsVisible === 1 && <SectionProcesador />}
       {IsVisible === 2 && <SectionPaginacion />}
       {IsVisible === 3 && <SectionDisco />}
